@@ -530,22 +530,22 @@ const MyVentures: React.FC<MyVenturesProps> = ({ onBack, onCreateNewVenture }) =
             {/* Ventures List */}
             <div className="space-y-6">
               {venturesData.map((venture) => (
-                <div key={venture.id} className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-4 hover:border-linkedin/50 transition-all">
+                <div key={venture.id} className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-3 hover:border-linkedin/50 transition-all">
                   {/* Company Header */}
-                  <div className="flex items-start space-x-3 mb-3">
+                  <div className="flex items-start space-x-2 mb-2">
                     <img 
                       src={venture.image} 
                       alt={venture.companyName}
-                      className="w-12 h-12 rounded-lg object-cover border-2 border-linkedin"
+                      className="w-10 h-10 rounded-lg object-cover border-2 border-linkedin"
                     />
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-1">
-                        <h3 className="text-base font-semibold text-white">{venture.companyName}</h3>
+                        <h3 className="text-sm font-semibold text-white">{venture.companyName}</h3>
                         <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(venture.status)}`}>
                           {venture.status}
                         </span>
                       </div>
-                      <div className="flex items-center space-x-4 text-xs text-gray-400">
+                      <div className="flex items-center space-x-3 text-xs text-gray-400">
                         <div className="flex items-center space-x-1">
                           <Building2 className="w-4 h-4" />
                           <span>{venture.industry}</span>
@@ -563,67 +563,67 @@ const MyVentures: React.FC<MyVenturesProps> = ({ onBack, onCreateNewVenture }) =
                   </div>
 
                   {/* Investment Details */}
-                  <div className="grid grid-cols-2 gap-3 mb-3">
+                  <div className="grid grid-cols-2 gap-2 mb-2">
                     <div className="bg-linkedin-card/50 rounded-lg p-2">
                       <p className="text-gray-400 text-xs">Investment Amount</p>
-                      <p className="text-white font-semibold">{venture.investmentAmount}</p>
+                      <p className="text-white font-semibold text-sm">{venture.investmentAmount}</p>
                     </div>
                     <div className="bg-linkedin-card/50 rounded-lg p-2">
                       <p className="text-gray-400 text-xs">Current Value</p>
-                      <p className="text-white font-semibold">{venture.currentValue}</p>
+                      <p className="text-white font-semibold text-sm">{venture.currentValue}</p>
                     </div>
                     <div className="bg-linkedin-card/50 rounded-lg p-2">
                       <p className="text-gray-400 text-xs">Unrealized Gain</p>
-                      <p className={`font-semibold ${getReturnColor(venture.returnMultiple)}`}>
+                      <p className={`font-semibold text-sm ${getReturnColor(venture.returnMultiple)}`}>
                         {venture.unrealizedGain}
                       </p>
                     </div>
                     <div className="bg-linkedin-card/50 rounded-lg p-2">
                       <p className="text-gray-400 text-xs">Return Multiple</p>
-                      <p className={`font-semibold ${getReturnColor(venture.returnMultiple)}`}>
+                      <p className={`font-semibold text-sm ${getReturnColor(venture.returnMultiple)}`}>
                         {venture.returnMultiple}
                       </p>
                     </div>
                   </div>
 
                   {/* Key Metrics */}
-                  <div className="bg-linkedin-card/50 rounded-lg p-3 mb-3">
-                    <h4 className="text-white font-semibold mb-3">Key Metrics</h4>
-                    <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-linkedin-card/50 rounded-lg p-2 mb-2">
+                    <h4 className="text-white font-semibold mb-1 text-sm">Key Metrics</h4>
+                    <div className="grid grid-cols-2 gap-2">
                       <div>
                         <p className="text-gray-400 text-xs">ARR</p>
-                        <p className="text-white font-semibold">{venture.keyMetrics.arr}</p>
+                        <p className="text-white font-semibold text-sm">{venture.keyMetrics.arr}</p>
                       </div>
                       <div>
                         <p className="text-gray-400 text-xs">Growth</p>
-                        <p className="text-white font-semibold">{venture.keyMetrics.growth}</p>
+                        <p className="text-white font-semibold text-sm">{venture.keyMetrics.growth}</p>
                       </div>
                       <div>
                         <p className="text-gray-400 text-xs">Users</p>
-                        <p className="text-white font-semibold">{venture.keyMetrics.users}</p>
+                        <p className="text-white font-semibold text-sm">{venture.keyMetrics.users}</p>
                       </div>
                       <div>
                         <p className="text-gray-400 text-xs">Team Size</p>
-                        <p className="text-white font-semibold">{venture.keyMetrics.teamSize}</p>
+                        <p className="text-white font-semibold text-sm">{venture.keyMetrics.teamSize}</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Recent News */}
-                  <div className="bg-linkedin-card/50 rounded-lg p-3 mb-3">
-                    <h4 className="text-white font-semibold mb-2">Recent News</h4>
+                  <div className="bg-linkedin-card/50 rounded-lg p-2 mb-2">
+                    <h4 className="text-white font-semibold mb-1 text-sm">Recent News</h4>
                     <p className="text-gray-300 text-sm">{venture.recentNews}</p>
                   </div>
 
                   {/* Actions */}
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-1">
                     <button
                       onClick={() => setSelectedVenture(venture)}
-                      className="flex-1 bg-linkedin hover:bg-linkedin/80 text-white px-3 py-1.5 rounded-lg font-semibold transition-colors"
+                      className="flex-1 bg-linkedin hover:bg-linkedin/80 text-white px-2 py-1 rounded-lg font-semibold transition-colors text-sm"
                     >
                       View Details
                     </button>
-                    <button className="px-3 py-1.5 border border-linkedin-border text-gray-300 rounded-lg hover:bg-linkedin-card/50 transition-colors">
+                    <button className="px-2 py-1 border border-linkedin-border text-gray-300 rounded-lg hover:bg-linkedin-card/50 transition-colors">
                       <ExternalLink className="w-4 h-4" />
                     </button>
                   </div>
