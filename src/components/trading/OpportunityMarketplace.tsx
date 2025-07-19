@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   DollarSign, 
   TrendingUp, 
@@ -28,7 +28,6 @@ interface PortfolioPerformanceDashboardProps {
 
 const PortfolioPerformanceDashboard: React.FC<PortfolioPerformanceDashboardProps> = ({ onSectionChange }) => {
   const [selectedDuration, setSelectedDuration] = useState('1y');
-  const [performanceGrowthData, setPerformanceGrowthData] = useState<Array<{date: string, value: number}>>([]);
 
   const durationOptions = [
     { id: '1m', label: '1M' },
@@ -213,42 +212,6 @@ const PortfolioPerformanceDashboard: React.FC<PortfolioPerformanceDashboardProps
     }
     setPerformanceGrowthData(data);
   }, [selectedDuration]);
-  useEffect(() => {
-    // Simulate data generation based on selectedDuration
-    let data: Array<{date: string, value: number}> = [];
-    const baseValue = 2500000; // $2.5M
-    const endDate = new Date();
-
-    switch (selectedDuration) {
-      case '1m':
-        for (let i = 0; i < 30; i++) {
-          const date = new Date(endDate.getTime() - (29 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 1000 });
-        }
-        break;
-      case '3m':
-        for (let i = 0; i < 3; i++) {
-          const date = new Date(endDate.getFullYear(), endDate.getMonth() - (2 - i), 1).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 50000 });
-        }
-        break;
-      case '6m':
-        for (let i = 0; i < 6; i++) {
-          const date = new Date(endDate.getFullYear(), endDate.getMonth() - (5 - i), 1).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 30000 });
-        }
-        break;
-      case '1y':
-      case 'all': // For simplicity, 'all' also shows 1 year of monthly data
-        for (let i = 0; i < 12; i++) {
-          const date = new Date(endDate.getFullYear(), endDate.getMonth() - (11 - i), 1).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 20000 });
-        }
-        break;
-    }
-    setPerformanceGrowthData(data);
-  }, [selectedDuration]);
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -320,11 +283,6 @@ const PortfolioPerformanceDashboard: React.FC<PortfolioPerformanceDashboardProps
             </div>
             <div className="h-64 overflow-y-auto bg-linkedin-card/50 rounded-lg p-4">
               <h4 className="text-white font-semibold mb-2">Portfolio Value Over Time</h4>
-              <ul className="space-y-1">
-                {performanceGrowthData.map((point, index) => (
-                  <li key={index} className="text-gray-300 text-sm">{point.date}: ${point.value.toLocaleString()}</li>
-                ))}
-              </ul>
               <ul className="space-y-1">
                 {performanceGrowthData.map((point, index) => (
                   <li key={index} className="text-gray-300 text-sm">{point.date}: ${point.value.toLocaleString()}</li>
