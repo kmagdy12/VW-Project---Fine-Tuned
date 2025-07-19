@@ -892,17 +892,6 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
                     >
                       My Services
                     </button>
- onClick={() => {
- setShowProfileView(false); // Ensure ProfileView is false
- setShowMyVentures(false); // Ensure MyVentures is false
- setShowVentureBuilder(false); // Ensure VentureBuilder is false
- setActiveTab('my-services');
- setActiveMyServicesSection('overview');
- setShowProfileDropdown(false);
- }}
- >
- My Services
- </button>
  <button className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]">
  Account Settings
  </button>
