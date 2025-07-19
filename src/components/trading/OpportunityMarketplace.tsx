@@ -133,6 +133,23 @@ const OpportunityMarketplace: React.FC<OpportunityMarketplaceProps> = ({ onSecti
     }
   ];
 
+  const activeDealsPerIndustryData = [
+    { name: 'Fintech', value: 30, color: 'bg-blue-500' },
+    { name: 'HealthTech', value: 20, color: 'bg-green-500' },
+    { name: 'EdTech', value: 15, color: 'bg-yellow-500' },
+    { name: 'Logistics', value: 10, color: 'bg-purple-500' },
+    { name: 'AgriTech', value: 10, color: 'bg-pink-500' },
+    { name: 'E-commerce', value: 15, color: 'bg-red-500' }
+  ];
+
+  const activeDealsPerMarketData = [
+    { name: 'UAE', value: 40, color: 'bg-blue-500' },
+    { name: 'Saudi Arabia', value: 25, color: 'bg-green-500' },
+    { name: 'Egypt', value: 15, color: 'bg-yellow-500' },
+    { name: 'Qatar', value: 10, color: 'bg-purple-500' },
+    { name: 'Kuwait', value: 10, color: 'bg-pink-500' }
+  ];
+
   const topActiveDeals = [
     { name: 'AgriTech Innovations', industry: 'AgriTech', dealType: 'Primary' },
     { name: 'HealthFlow Solutions', industry: 'HealthTech', dealType: 'Secondary' },
@@ -312,7 +329,7 @@ const OpportunityMarketplace: React.FC<OpportunityMarketplaceProps> = ({ onSecti
         </div>
 
         {/* Right Sidebar for Charts */}
-        <div className="space-y-6 min-w-[250px] bg-gray-800 p-6 rounded-xl">
+        <div className="space-y-6 min-w-[300px]">
           {/* Top Active Deals */}
           <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
             <h3 className="text-xl font-bold text-white mb-4">Top Active Deals</h3>
@@ -329,16 +346,36 @@ const OpportunityMarketplace: React.FC<OpportunityMarketplaceProps> = ({ onSecti
           {/* Active Deals per Industry */}
           <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
             <h3 className="text-xl font-bold text-white mb-4">Active Deals per Industry</h3>
-            <div className="h-64 flex items-center justify-center text-gray-500">
-              [Pie Chart Placeholder]
+            <div className="space-y-3">
+              {activeDealsPerIndustryData.map((item, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
+                    <span className="text-gray-300 text-sm">{item.name}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-white font-semibold text-sm">{item.value}%</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Active Deals per Market (Geo) */}
           <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
             <h3 className="text-xl font-bold text-white mb-4">Active Deals per Market (Geo)</h3>
-            <div className="h-64 flex items-center justify-center text-gray-500">
-              [Pie Chart Placeholder]
+            <div className="space-y-3">
+              {activeDealsPerMarketData.map((item, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
+                    <span className="text-gray-300 text-sm">{item.name}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-white font-semibold text-sm">{item.value}%</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
