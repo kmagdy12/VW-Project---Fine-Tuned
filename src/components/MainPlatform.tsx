@@ -702,6 +702,11 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
               <button
                 key={item.id}
                 onClick={() => {
+                  // Reset all specific view states when navigating to main tabs
+                  setShowProfileView(false);
+                  setShowMyVentures(false);
+                  setShowVentureBuilder(false);
+                  
                   setActiveTab(item.id);
                   // Set default section for trading tab
                   if (item.id === 'trading') {
