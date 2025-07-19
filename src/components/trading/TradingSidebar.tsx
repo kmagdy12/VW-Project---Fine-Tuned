@@ -1,428 +1,166 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { 
-  DollarSign, 
+  BarChart3, 
+  Target, 
   TrendingUp, 
-  TrendingDown, 
-  Building2, 
-  Users, 
-  BarChart3,
-  AlertTriangle,
-  Star,
-  Calendar,
-  ExternalLink,
-  PieChart,
-  Activity,
-  Target,
-  Award,
-  Briefcase,
-  Eye,
-  ArrowUpRight,
-  ArrowDownRight,
-  Clock,
-  Newspaper
+  Bookmark,
+  Building2,
+  DollarSign,
+  Users,
+  Star
 } from 'lucide-react';
 
-interface PortfolioPerformanceDashboardProps {
+interface TradingSidebarProps {
+  activeSection: string;
   onSectionChange: (section: string) => void;
+  isCollapsed?: boolean;
+  showMyInvestmentsGroup?: boolean;
 }
 
-const PortfolioPerformanceDashboard: React.FC<PortfolioPerformanceDashboardProps> = ({ onSectionChange }) => {
-  const [selectedDuration, setSelectedDuration] = useState('1y');
-  const [performanceGrowthData, setPerformanceGrowthData] = useState<Array<{date: string, value: number}>>([]);
-
-  const durationOptions = [
-    { id: '1m', label: '1M' },
-    { id: '3m', label: '3M' },
-    { id: '6m', label: '6M' },
-    { id: '1y', label: '1Y' },
-    { id: 'all', label: 'All' }
+const TradingSidebar: React.FC<TradingSidebarProps> = ({ 
+  activeSection, 
+  onSectionChange, 
+  isCollapsed = false,
+  showMyInvestmentsGroup = false
+}) => {
+  const navigationTabs = [
+    { id: 'trading-dashboard', label: 'Trading Dashboard', icon: BarChart3 },
+    { id: 'opportunity-marketplace', label: 'Opportunity Marketplace', icon: Target },
+    { id: 'saved-opportunities', label: 'Saved Opportunities', icon: Bookmark }
   ];
 
-  const portfolioOverview = {
-    totalValue: '$3.8M',
-    totalInvestments: 12,
-    totalInvested: '$2.5M',
-    totalExits: 3,
-    totalGainFromExits: '$450K',
-    totalReturn: '52%'
-  };
-
-  const industrySegmentation = [
-    { industry: 'Fintech', percentage: 28.9, value: '$1.1M', color: 'bg-blue-500' },
-    { industry: 'HealthTech', percentage: 21.1, value: '$800K', color: 'bg-green-500' },
-    { industry: 'AgriTech', percentage: 18.4, value: '$700K', color: 'bg-yellow-500' },
-    { industry: 'EdTech', percentage: 15.8, value: '$600K', color: 'bg-purple-500' },
-    { industry: 'CleanTech', percentage: 13.2, value: '$500K', color: 'bg-pink-500' },
-    { industry: 'RetailTech', percentage: 2.6, value: '$100K', color: 'bg-gray-500' }
+  const myInvestmentsTabs = [
+    { id: 'investment-pipeline', label: 'Investment Pipeline', icon: TrendingUp },
+    { id: 'portfolio-summary', label: 'Portfolio Summary', icon: BarChart3 },
+    { id: 'explore-portfolio', label: 'Explore Portfolio', icon: Building2 },
+    { id: 'portfolio-management', label: 'Portfolio Management', icon: Target },
+    { id: 'saved-investment-opportunities', label: 'Saved Investment Opportunities', icon: Bookmark }
   ];
 
-  const stageSegmentation = [
-    { stage: 'Seed', percentage: 31.6, count: 5, color: 'bg-orange-500' },
-    { stage: 'Series A', percentage: 47.4, count: 4, color: 'bg-blue-500' },
-    { stage: 'Series B', percentage: 15.8, count: 2, color: 'bg-green-500' },
-    { stage: 'Exited', percentage: 5.3, count: 1, color: 'bg-gray-500' }
+  const stats = [
+    { label: 'Portfolio', value: '$3.8M', icon: DollarSign },
+    { label: 'Investments', value: '12', icon: Building2 },
+    { label: 'Returns', value: '52%', icon: TrendingUp },
+    { label: 'Rating', value: '4.8', icon: Star }
   ];
-
-  const performanceSegmentation = [
-    { performance: 'High Performers', percentage: 33.3, count: 4, color: 'bg-green-500' },
-    { performance: 'Stable', percentage: 50.0, count: 6, color: 'bg-blue-500' },
-    { performance: 'Underperforming', percentage: 16.7, count: 2, color: 'bg-red-500' }
-  ];
-
-  const alerts = [
-    {
-      id: 1,
-      title: 'AgriTech Innovations: 30% revenue decline',
-      description: 'Quarterly revenue dropped significantly due to seasonal factors',
-      severity: 'high',
-      date: '2 hours ago'
-    },
-    {
-      id: 2,
-      title: 'EduSpark: 1 month delay in product release',
-      description: 'Product launch postponed due to technical challenges',
-      severity: 'medium',
-      date: '1 day ago'
-    },
-    {
-      id: 3,
-      title: 'HealthFlow Solutions: New partnership announced',
-      description: 'Strategic partnership with major healthcare provider',
-      severity: 'low',
-      date: '3 days ago'
-    }
-  ];
-
-  const topPerformers = [
-    {
-      id: 1,
-      name: 'AgriTech Innovations',
-      logo: '🌱',
-      growthRate: '+180%',
-      currentValue: '$372K',
-      industry: 'AgriTech'
-    },
-    {
-      id: 2,
-      name: 'HealthFlow Solutions',
-      logo: '🏥',
-      growthRate: '+120%',
-      currentValue: '$180K',
-      industry: 'HealthTech'
-    },
-    {
-      id: 3,
-      name: 'EduSpark',
-      logo: '📚',
-      growthRate: '+150%',
-      currentValue: '$150K',
-      industry: 'EdTech'
-    },
-    {
-      id: 4,
-      name: 'CleanEnergy MENA',
-      logo: '☀️',
-      growthRate: '+140%',
-      currentValue: '$420K',
-      industry: 'CleanTech'
-    },
-    {
-      id: 5,
-      name: 'LogiChain',
-      logo: '🔗',
-      growthRate: '+95%',
-      currentValue: '$285K',
-      industry: 'Logistics'
-    }
-  ];
-
-  const marketUpdates = [
-    {
-      id: 1,
-      title: 'MENA Fintech Investment Reaches Record High in Q4 2024',
-      intro: 'Regional fintech startups raised $1.2B in the fourth quarter, marking a 45% increase from the previous year',
-      date: '2 hours ago'
-    },
-    {
-      id: 2,
-      title: 'Saudi Arabia Launches $2B Innovation Fund',
-      intro: 'New government initiative aims to support early-stage startups across technology sectors',
-      date: '6 hours ago'
-    },
-    {
-      id: 3,
-      title: 'UAE Central Bank Updates Fintech Regulations',
-      intro: 'New regulatory framework provides clearer guidelines for digital payment platforms',
-      date: '1 day ago'
-    },
-    {
-      id: 4,
-      title: 'AgriTech Sector Shows Strong Growth Across MENA',
-      intro: 'Agricultural technology investments up 60% as region focuses on food security',
-      date: '2 days ago'
-    }
-  ];
-
-  const getSeverityColor = (severity: string) => {
-    switch (severity) {
-      case 'high':
-        return 'text-red-400 bg-red-500/20 border-red-500/30';
-      case 'medium':
-        return 'text-yellow-400 bg-yellow-500/20 border-yellow-500/30';
-      case 'low':
-        return 'text-green-400 bg-green-500/20 border-green-500/30';
-      default:
-        return 'text-gray-400 bg-gray-500/20 border-gray-500/30';
-    }
-  };
-
-  useEffect(() => {
-    // Simulate data generation based on selectedDuration
-    let data: Array<{date: string, value: number}> = [];
-    const baseValue = 2500000; // $2.5M
-    const endDate = new Date();
-
-    switch (selectedDuration) {
-      case '1m':
-        for (let i = 0; i < 30; i++) {
-          const date = new Date(endDate.getTime() - (29 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 1000 });
-        }
-        break;
-      case '3m':
-        for (let i = 0; i < 3; i++) {
-          const date = new Date(endDate.getFullYear(), endDate.getMonth() - (2 - i), 1).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 50000 });
-        }
-        break;
-      case '6m':
-        for (let i = 0; i < 6; i++) {
-          const date = new Date(endDate.getFullYear(), endDate.getMonth() - (5 - i), 1).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 30000 });
-        }
-        break;
-      case '1y':
-      case 'all': // For simplicity, 'all' also shows 1 year of monthly data
-        for (let i = 0; i < 12; i++) {
-          const date = new Date(endDate.getFullYear(), endDate.getMonth() - (11 - i), 1).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 20000 });
-        }
-        break;
-    }
-    setPerformanceGrowthData(data);
-  }, [selectedDuration]);
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Portfolio Summary Dashboard</h1>
-        <p className="text-gray-300">Real-time portfolio performance tracking with comprehensive metrics and analytics</p>
-      </div>
-
-      {/* Portfolio Value Overview */}
-      <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
-        <h3 className="text-xl font-bold text-white mb-6 flex items-center space-x-2">
-          <DollarSign className="w-5 h-5" />
-          <span>Portfolio Value Overview</span>
-        </h3>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-linkedin-light mb-2">{portfolioOverview.totalValue}</div>
-            <div className="text-gray-400 text-sm">Total Portfolio Value</div>
+      {/* Profile Information */}
+      <div className={`bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border ${isCollapsed ? 'p-3' : 'p-6'}`}>
+        <div className={isCollapsed ? 'flex flex-col items-center' : 'text-center'}>
+          <div className="relative inline-block mb-4">
+            <img 
+              src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=150" 
+              alt="Profile" 
+              className={`${isCollapsed ? 'w-10 h-10' : 'w-20 h-20'} rounded-full object-cover border-4 border-linkedin`}
+            />
+            {!isCollapsed && (
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
+            )}
           </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-white mb-2">{portfolioOverview.totalInvestments}</div>
-            <div className="text-gray-400 text-sm"># Investments</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-white mb-2">{portfolioOverview.totalInvested}</div>
-            <div className="text-gray-400 text-sm">Total Invested</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-white mb-2">{portfolioOverview.totalExits}</div>
-            <div className="text-gray-400 text-sm"># of Exits</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-green-400 mb-2">{portfolioOverview.totalGainFromExits}</div>
-            <div className="text-gray-400 text-sm">Total Gain (Exit Value)</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-green-400 mb-2">{portfolioOverview.totalReturn}</div>
-            <div className="text-gray-400 text-sm">Total Return</div>
-          </div>
+          
+          {!isCollapsed && (
+            <>
+              <h3 className="text-lg font-semibold text-white mb-1">John Doe</h3>
+              <p className="text-linkedin-light text-sm mb-3">Serial Entrepreneur & Investor</p>
+              
+              {/* Role Tags */}
+              <div className="flex flex-wrap justify-center gap-2 mb-3">
+                <span className="bg-linkedin/20 text-linkedin-light px-2 py-1 rounded-full text-xs">
+                  Founder
+                </span>
+                <span className="bg-linkedin-light/20 text-linkedin-light px-2 py-1 rounded-full text-xs">
+                  Investor
+                </span>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Content */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Portfolio Performance Growth */}
-          <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white flex items-center space-x-2">
-                <TrendingUp className="w-5 h-5" />
-                <span>Portfolio Performance Growth</span>
-              </h3>
-              <div className="flex space-x-2">
-                {durationOptions.map((option) => (
-                  <button
-                    key={option.id}
-                    onClick={() => setSelectedDuration(option.id)}
-                    className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
-                      selectedDuration === option.id
-                        ? 'bg-linkedin-light text-white'
-                        : 'text-gray-400 hover:text-white hover:bg-linkedin-card/50'
-                    }`}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
-            <div className="h-48 flex items-center justify-center text-gray-500">
-              [Portfolio Performance Growth Chart - {selectedDuration.toUpperCase()}]
-            </div>
-          </div>
-
-          {/* Portfolio Breakdown */}
-          <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center space-x-2">
-              <PieChart className="w-5 h-5" />
-              <span>Portfolio Breakdown</span>
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Industry Segmentation */}
-              <div>
-                <h4 className="text-lg font-semibold text-linkedin-light mb-4">Industry Segmentation</h4>
-                <div className="space-y-3">
-                  {industrySegmentation.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
-                        <span className="text-gray-300 text-sm">{item.industry}</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-white font-semibold text-sm">{item.percentage}%</div>
-                        <div className="text-gray-400 text-xs">{item.value}</div>
-                      </div>
-                    </div>
-                  ))}
+      {/* Trading Stats - Hide when collapsed */}
+      {!isCollapsed && (
+        <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
+          <h4 className="text-white font-semibold mb-4">Trading Stats</h4>
+          <div className="grid grid-cols-2 gap-4">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="flex items-center justify-center mb-2">
+                  <stat.icon className="w-5 h-5 text-linkedin-light" />
                 </div>
+                <div className="text-lg font-bold text-white">{stat.value}</div>
+                <div className="text-xs text-gray-400">{stat.label}</div>
               </div>
-
-              {/* Stage Segmentation */}
-              <div>
-                <h4 className="text-lg font-semibold text-linkedin-light mb-4">Stage Segmentation</h4>
-                <div className="space-y-3">
-                  {stageSegmentation.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
-                        <span className="text-gray-300 text-sm">{item.stage}</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-white font-semibold text-sm">{item.percentage}%</div>
-                        <div className="text-gray-400 text-xs">{item.count} companies</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Performance Segmentation */}
-              <div>
-                <h4 className="text-lg font-semibold text-linkedin-light mb-4">Performance Segmentation</h4>
-                <div className="space-y-3">
-                  {performanceSegmentation.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
-                        <span className="text-gray-300 text-sm">{item.performance}</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-white font-semibold text-sm">{item.percentage}%</div>
-                        <div className="text-gray-400 text-xs">{item.count} companies</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
+      )}
 
-        {/* Right Sidebar */}
-        <div className="space-y-6">
-          {/* Alerts */}
-          <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center space-x-2">
-              <AlertTriangle className="w-5 h-5" />
-              <span>Alerts</span>
-            </h3>
-            
-            <div className="space-y-3">
-              {alerts.map((alert) => (
-                <div key={alert.id} className={`p-3 rounded-lg border ${getSeverityColor(alert.severity)}`}>
-                  <h4 className="font-medium text-sm mb-1">{alert.title}</h4>
-                  <p className="text-xs mb-2 opacity-80">{alert.description}</p>
-                  <span className="text-xs opacity-60">{alert.date}</span>
+      {/* Collapsed Stats - Show only when collapsed */}
+      {isCollapsed && (
+        <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-3">
+          <div className="space-y-3">
+            {stats.slice(0, 2).map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="flex items-center justify-center mb-1">
+                  <stat.icon className="w-4 h-4 text-linkedin-light" />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Top Performers */}
-          <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center space-x-2">
-              <Star className="w-5 h-5" />
-              <span>Top Performers</span>
-            </h3>
-            
-            <div className="space-y-3">
-              {topPerformers.map((performer, index) => (
-                <div key={performer.id} className="flex items-center space-x-3 p-3 bg-linkedin-card/50 rounded-lg hover:bg-linkedin-card/70 transition-colors cursor-pointer">
-                  <div className="text-2xl">{performer.logo}</div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-white font-medium text-sm truncate">{performer.name}</h4>
-                    <p className="text-gray-400 text-xs">{performer.industry}</p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-green-400 font-semibold text-sm">{performer.growthRate}</div>
-                    <div className="text-gray-400 text-xs">{performer.currentValue}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Market Updates */}
-          <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center space-x-2">
-              <Newspaper className="w-5 h-5" />
-              <span>Market Updates</span>
-            </h3>
-            
-            <div className="space-y-4">
-              {marketUpdates.map((update) => (
-                <div key={update.id} className="p-3 bg-linkedin-card/50 rounded-lg hover:bg-linkedin-card/70 transition-colors cursor-pointer">
-                  <h4 className="text-white font-medium text-sm mb-2">{update.title}</h4>
-                  <p className="text-gray-300 text-xs mb-2">{update.intro}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-500 text-xs">{update.date}</span>
-                    <ExternalLink className="w-3 h-3 text-gray-400" />
-                  </div>
-                </div>
-              ))}
-            </div>
+                <div className="text-sm font-bold text-white">{stat.value}</div>
+              </div>
+            ))}
           </div>
         </div>
+      )}
+
+      {/* Navigation Tabs */}
+      <div className={`bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border ${isCollapsed ? 'p-2' : 'p-4'}`}>
+        <nav className="space-y-2">
+          {navigationTabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => onSectionChange(tab.id)}
+              className={`w-full flex items-center ${isCollapsed ? 'justify-center p-3' : 'space-x-3 px-3 py-2'} rounded-lg transition-all ${
+                activeSection === tab.id
+                 ? 'bg-linkedin text-white'
+                 : 'text-gray-300 hover:text-white hover:bg-linkedin-card'
+              }`}
+              title={isCollapsed ? tab.label : undefined}
+            >
+              <tab.icon className="w-4 h-4" />
+              {!isCollapsed && <span className="text-sm font-medium">{tab.label}</span>}
+            </button>
+          ))}
+        </nav>
       </div>
+
+      {/* My Investments Group - Show only when showMyInvestmentsGroup is true */}
+      {showMyInvestmentsGroup && (
+        <div className={`bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border ${isCollapsed ? 'p-2' : 'p-4'}`}>
+          {!isCollapsed && (
+            <h4 className="text-white font-semibold mb-3 text-sm">My Investments</h4>
+          )}
+          <nav className="space-y-2">
+            {myInvestmentsTabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => onSectionChange(tab.id)}
+                className={`w-full flex items-center ${isCollapsed ? 'justify-center p-3' : 'space-x-3 px-3 py-2'} rounded-lg transition-all ${
+                  activeSection === tab.id
+                   ? 'bg-linkedin text-white'
+                   : 'text-gray-300 hover:text-white hover:bg-linkedin-card'
+                }`}
+                title={isCollapsed ? tab.label : undefined}
+              >
+                <tab.icon className="w-4 h-4" />
+                {!isCollapsed && <span className="text-sm font-medium">{tab.label}</span>}
+              </button>
+            ))}
+          </nav>
+        </div>
+      )}
     </div>
   );
 };
 
-export default PortfolioPerformanceDashboard;
+export default TradingSidebar;
