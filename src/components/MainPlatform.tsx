@@ -21,7 +21,7 @@ import ProfileView from './profile/ProfileView';
 import MyVentures from './ventures/MyVentures';
 import VentureBuilder from './venture_builder/VentureBuilder';
 import { Search, Users, BarChart3, MessageSquare, Bell, Settings, Building2, TrendingUp, Globe, Filter, Plus, Star, Bookmark, Mail, Phone, Briefcase, UserSearch } from 'lucide-react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Brain } from 'lucide-react';
 import MyServicesMain from './my_services/MyServicesMain';
 
 interface MainPlatformProps {
