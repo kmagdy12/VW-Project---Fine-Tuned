@@ -528,7 +528,7 @@ const MyVentures: React.FC<MyVenturesProps> = ({ onBack, onCreateNewVenture }) =
             </div>
             
             {/* Ventures List */}
-            <div className="grid grid-cols-1 gap-6">
+            <div className="space-y-6">
               {venturesData.map((venture) => (
                 <div key={venture.id} className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6 hover:border-linkedin/50 transition-all">
                   {/* Company Header */}
