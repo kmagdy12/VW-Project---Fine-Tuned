@@ -176,43 +176,6 @@ const PortfolioPerformanceDashboard: React.FC<PortfolioPerformanceDashboardProps
     }
   };
 
-  const [performanceGrowthData, setPerformanceGrowthData] = useState<Array<{date: string, value: number}>>([]);
-
-  useEffect(() => {
-    // Simulate data generation based on selectedDuration
-    let data: Array<{date: string, value: number}> = [];
-    const baseValue = 2500000; // $2.5M
-    const endDate = new Date();
-
-    switch (selectedDuration) {
-      case '1m':
-        for (let i = 0; i < 30; i++) {
-          const date = new Date(endDate.getTime() - (29 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 1000 });
-        }
-        break;
-      case '3m':
-        for (let i = 0; i < 3; i++) {
-          const date = new Date(endDate.getFullYear(), endDate.getMonth() - (2 - i), 1).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 50000 });
-        }
-        break;
-      case '6m':
-        for (let i = 0; i < 6; i++) {
-          const date = new Date(endDate.getFullYear(), endDate.getMonth() - (5 - i), 1).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 30000 });
-        }
-        break;
-      case '1y':
-      case 'all': // For simplicity, 'all' also shows 1 year of monthly data
-        for (let i = 0; i < 12; i++) {
-          const date = new Date(endDate.getFullYear(), endDate.getMonth() - (11 - i), 1).toISOString().split('T')[0];
-          data.push({ date, value: baseValue + i * 20000 });
-        }
-        break;
-    }
-    setPerformanceGrowthData(data);
-  }, [selectedDuration]);
   useEffect(() => {
     // Simulate data generation based on selectedDuration
     let data: Array<{date: string, value: number}> = [];
@@ -300,9 +263,27 @@ const PortfolioPerformanceDashboard: React.FC<PortfolioPerformanceDashboardProps
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-white flex items-center space-x-2">
                 <TrendingUp className="w-5 h-5" />
-              <div className="h-48 flex items-center justify-center text-gray-500">
-                [Portfolio Performance Growth Chart - {selectedDuration.toUpperCase()}]
+                <span>Portfolio Performance Growth</span>
+              </h3>
+              <div className="flex space-x-2">
+                {durationOptions.map((option) => (
+                  <button
+                    key={option.id}
+                    onClick={() => setSelectedDuration(option.id)}
+                    className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                      selectedDuration === option.id
+                        ? 'bg-linkedin-light text-white'
+                        : 'text-gray-400 hover:text-white hover:bg-linkedin-card/50'
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
               </div>
+            </div>
+            
+            <div className="h-48 flex items-center justify-center text-gray-500">
+              [Portfolio Performance Growth Chart - {selectedDuration.toUpperCase()}]
             </div>
           </div>
 
