@@ -845,49 +845,60 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
                   
                   <div className="py-2">
                     <button 
-                      onClick={() => {
-                        setShowProfileView(true);
-                        setShowProfileDropdown(false);
-                      }}
-                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
-                    >
-                      View/Edit Profile
-                    </button>
-                    <button 
-                      onClick={() => {
-                        setShowMyVentures(true);
-                        setShowProfileDropdown(false);
-                      }}
-                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
-                    >
-                      My Ventures
-                    </button>
-                    <button 
-                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
-                      onClick={() => {
-                        setActiveTab('trading'); 
-                        setActiveTradingSection('investment-pipeline'); 
-                        setShowProfileDropdown(false);
-                      }}
-                    >
-                      My Investments
-                    </button>
-                    <button 
-                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
-                      onClick={() => {
-                        setActiveTab('my-services');
-                        setActiveMyServicesSection('overview');
-                        setShowProfileDropdown(false);
-                      }}
-                     >
-                       My Services
-                     </button>
-                    <button className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]">
-                      Account Settings
-                    </button>
-                    <button className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]">
-                      Privacy Controls
-                    </button>
+ <button
+ onClick={() => {
+ setShowProfileView(true);
+ setShowMyVentures(false); // Ensure MyVentures is false
+ setShowVentureBuilder(false); // Ensure VentureBuilder is false
+ setShowProfileDropdown(false);
+ }}
+ className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
+ >
+ View/Edit Profile
+ </button>
+ <button
+ onClick={() => {
+ setShowMyVentures(true);
+ setShowProfileView(false); // Ensure ProfileView is false
+ setShowVentureBuilder(false); // Ensure VentureBuilder is false
+ setShowProfileDropdown(false);
+ }}
+ className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
+ >
+ My Ventures
+ </button>
+ <button
+ className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
+ onClick={() => {
+ setShowProfileView(false); // Ensure ProfileView is false
+ setShowMyVentures(false); // Ensure MyVentures is false
+ setShowVentureBuilder(false); // Ensure VentureBuilder is false
+ setActiveTab('trading');
+ setActiveTradingSection('investment-pipeline');
+ setShowProfileDropdown(false);
+ }}
+ >
+ My Investments
+ </button>
+ <button
+ className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
+ onClick={() => {
+ setShowProfileView(false); // Ensure ProfileView is false
+ setShowMyVentures(false); // Ensure MyVentures is false
+ setShowVentureBuilder(false); // Ensure VentureBuilder is false
+ setActiveTab('my-services');
+ setActiveMyServicesSection('overview');
+ setShowProfileDropdown(false);
+ }}
+ >
+ My Services
+ </button>
+ <button className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]">
+ Account Settings
+ </button>
+ <button className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]">
+ Privacy Controls
+ </button>
                   </div>
                   
                   <div className="p-3 border-t border-linkedin-border">
