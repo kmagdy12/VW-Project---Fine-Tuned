@@ -34,7 +34,6 @@ const TradingSidebar: React.FC<TradingSidebarProps> = ({
     { id: 'investment-pipeline', label: 'Investment Pipeline', icon: Briefcase },
     { id: 'portfolio-summary', label: 'Portfolio Summary', icon: BarChart3 },
     { id: 'explore-portfolio', label: 'Explore Portfolio', icon: Target },
-    { id: 'portfolio-management', label: 'Portfolio Management', icon: Building2 },
     { id: 'saved-investment-opportunities', label: 'Saved Investment Opportunities', icon: Bookmark }
   ];
 
