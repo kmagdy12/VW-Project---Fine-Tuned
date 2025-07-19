@@ -20,8 +20,8 @@ import MyInvestments from './investments/MyInvestments';
 import ProfileView from './profile/ProfileView';
 import MyVentures from './ventures/MyVentures';
 import VentureBuilder from './venture_builder/VentureBuilder';
-import { Search, Users, BarChart3, MessageSquare, Bell, Settings, Building2, TrendingUp, Globe, Filter, Plus, Star, Bookmark, Mail, Phone, Briefcase, UserSearch } from 'lucide-react';
-import { ChevronDown, Brain } from 'lucide-react';
+import { Search, Users, BarChart3, MessageSquare, Bell, Settings, Building2, TrendingUp, Globe, Filter, Plus, Star, MapPin, DollarSign, Calendar, Eye, Heart, Share2, Brain, Bookmark, Mail, Briefcase, UserSearch } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import MyServicesMain from './my_services/MyServicesMain';
 
 interface MainPlatformProps {
@@ -45,6 +45,7 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
   const [isSocialAICompanionOpen, setIsSocialAICompanionOpen] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [showNotificationsDropdown, setShowNotificationsDropdown] = useState(false);
 
   // Scroll to top whenever the active tab or social section changes
   useEffect(() => {
@@ -59,9 +60,20 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
       }
     };
 
+    const handleClickOutsideNotifications = (event: MouseEvent) => {
+      const notificationDropdown = document.getElementById('notifications-dropdown');
+      const notificationButton = document.getElementById('notification-button');
+      if (notificationDropdown && !notificationDropdown.contains(event.target as Node) && 
+          notificationButton && !notificationButton.contains(event.target as Node)) {
+        setShowNotificationsDropdown(false);
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutsideNotifications);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutsideNotifications);
     };
   }, []);
 
@@ -608,6 +620,31 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
     </div>
   );
 
+  // Sample notifications data
+  const sampleNotifications = [
+    {
+      id: 1,
+      title: 'New investment opportunity',
+      message: 'AgriTech Innovations is raising Series A',
+      time: '2 hours ago',
+      type: 'investment'
+    },
+    {
+      id: 2,
+      title: 'Portfolio update',
+      message: 'HealthFlow Solutions posted Q4 results',
+      time: '1 day ago',
+      type: 'portfolio'
+    },
+    {
+      id: 3,
+      title: 'Network activity',
+      message: 'Sarah Khalil shared a market insight',
+      time: '2 days ago',
+      type: 'network'
+    }
+  ];
+
   if (showProfileView) {
     return <ProfileView onBack={() => setShowProfileView(false)} profileData={mockProfileData} />;
   }
@@ -663,17 +700,58 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
           </nav>
           
           <div className="flex items-center space-x-6">
-            {!profileCompleted && (
-              <button
-                onClick={onReturnToOnboarding}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            <button 
+              onClick={() => {
+                setActiveTab('social');
+                setActiveSocialSection('network');
+              }}
+              className="p-2 text-gray-400 hover:text-white transition-colors"
+              title="Network"
+            >
+              <UserSearch className="w-5 h-5" />
+            </button>
+            <button 
+              onClick={() => {
+                setActiveTab('social');
+                setActiveSocialSection('messaging');
+              }}
+              className="p-2 text-gray-400 hover:text-white transition-colors"
+              title="Messaging"
+            >
+              <MessageSquare className="w-5 h-5" />
+            </button>
+            <div className="relative">
+              <button 
+                id="notification-button"
+                onClick={() => setShowNotificationsDropdown(!showNotificationsDropdown)}
+                className="p-2 text-gray-400 hover:text-white transition-colors"
               >
-                Complete Profile
-              </button>
-            )}
-            <button className="p-2 text-gray-400 hover:text-white transition-colors">
               <Bell className="w-5 h-5 relative z-[50]" />
             </button>
+              
+              {/* Notifications Dropdown */}
+              {showNotificationsDropdown && (
+                <div id="notifications-dropdown" className="absolute right-0 mt-2 w-80 bg-linkedin-card rounded-lg shadow-lg border border-linkedin-border z-[9999]" style={{top: '100%'}}>
+                  <div className="p-4 border-b border-linkedin-border">
+                    <h3 className="text-white font-semibold">Notifications</h3>
+                  </div>
+                  <div className="max-h-80 overflow-y-auto">
+                    {sampleNotifications.map((notification) => (
+                      <div key={notification.id} className="p-4 border-b border-linkedin-border/50 hover:bg-linkedin-card/50 transition-colors cursor-pointer">
+                        <h4 className="text-white font-medium text-sm mb-1">{notification.title}</h4>
+                        <p className="text-gray-300 text-xs mb-2">{notification.message}</p>
+                        <span className="text-gray-500 text-xs">{notification.time}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="p-3 border-t border-linkedin-border">
+                    <button className="w-full text-linkedin-light hover:text-linkedin text-sm font-medium transition-colors">
+                      View All Notifications
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
             
             {/* Profile Dropdown */}
             <div className="relative z-[50]" ref={dropdownRef}>
@@ -707,6 +785,15 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
                         <p className="text-gray-400 text-sm">Entrepreneur & Investor</p>
                       </div>
                     </div>
+                    
+                    {!profileCompleted && (
+                      <button
+                        onClick={onReturnToOnboarding}
+                        className="w-full bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors mt-3"
+                      >
+                        Complete Profile
+                      </button>
+                    )}
                     
                     <div className="mt-3">
                       <div className="flex items-center justify-between mb-1">
