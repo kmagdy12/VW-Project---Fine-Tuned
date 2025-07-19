@@ -312,7 +312,7 @@ const OpportunityMarketplace: React.FC<OpportunityMarketplaceProps> = ({ onSecti
         </div>
 
         {/* Right Sidebar for Charts */}
-        <div className="space-y-6">
+        <div className="space-y-6 min-w-[250px] bg-gray-800 p-6 rounded-xl">
           {/* Top Active Deals */}
           <div className="bg-linkedin-card backdrop-blur-lg rounded-xl border border-linkedin-border p-6">
             <h3 className="text-xl font-bold text-white mb-4">Top Active Deals</h3>
