@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ActivityFeed from './social/ActivityFeed';
 import LeftSidebar from './social/LeftSidebar';
 import SocialAICompanionChat from './social/SocialAICompanionChat';
@@ -685,24 +684,6 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
     </div>
   );
 
-  if (showProfileView) {
-    return <ProfileView onBack={() => setShowProfileView(false)} profileData={mockProfileData} />;
-  }
-  
-  if (showVentureBuilder) {
-    return <VentureBuilder onBack={() => setShowVentureBuilder(false)} />;
-  }
-  
-  if (showMyVentures) {
-    return <MyVentures 
-      onBack={() => setShowMyVentures(false)} 
-      onCreateNewVenture={() => {
-        setShowMyVentures(false);
-        setShowVentureBuilder(true);
-      }}
-    />;
-  }
-
   return (
     <div className="min-h-screen">
       {/* Header */}
@@ -946,8 +927,21 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
 
       {/* Main Content */}
       <main className="w-full">
-        {/* Tab Content */}
-        {renderTabContent()}
+        {showProfileView ? (
+          <ProfileView onBack={() => setShowProfileView(false)} profileData={mockProfileData} />
+        ) : showVentureBuilder ? (
+          <VentureBuilder onBack={() => setShowVentureBuilder(false)} />
+        ) : showMyVentures ? (
+          <MyVentures 
+            onBack={() => setShowMyVentures(false)} 
+            onCreateNewVenture={() => {
+              setShowMyVentures(false);
+              setShowVentureBuilder(true);
+            }}
+          />
+        ) : (
+          renderTabContent()
+        )}
       </main>
     </div>
   );
