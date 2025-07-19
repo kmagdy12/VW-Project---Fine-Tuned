@@ -129,6 +129,71 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
     }
   ];
 
+  // Sample notifications data
+  const sampleNotifications = [
+    {
+      id: 1,
+      title: 'New investment opportunity',
+      message: 'AgriTech Innovations is raising Series A',
+      time: '2 hours ago',
+      type: 'investment',
+      unread: true,
+    },
+    {
+      id: 2,
+      title: 'Portfolio update',
+      message: 'HealthFlow Solutions posted Q4 results',
+      time: '1 day ago',
+      type: 'portfolio',
+      unread: true,
+    },
+    {
+      id: 3,
+      title: 'Network activity',
+      message: 'Sarah Khalil shared a market insight',
+      time: '2 days ago',
+      type: 'network',
+      unread: false,
+    },
+    {
+      id: 4,
+      title: 'New message from John Doe',
+      message: 'Hey, I saw your post about scaling startups...',
+      time: '3 days ago',
+      type: 'message',
+      unread: true,
+    },
+  ];
+
+  const unreadNotificationsCount = sampleNotifications.filter(n => n.unread).length;
+
+  const getNotificationItemClass = (type: string, unread: boolean) => {
+    let baseClasses = 'p-4 border-b border-linkedin-border/50 hover:bg-linkedin-card/50 transition-colors cursor-pointer';
+    let typeClasses = '';
+    let unreadClasses = '';
+
+    switch (type) {
+      case 'investment':
+        typeClasses = 'bg-blue-500/10';
+        break;
+      case 'portfolio':
+        typeClasses = 'bg-green-500/10';
+        break;
+      case 'network':
+        typeClasses = 'bg-purple-500/10';
+        break;
+      case 'message':
+        typeClasses = 'bg-yellow-500/10';
+        break;
+    }
+
+    if (unread) {
+      unreadClasses = 'border-l-4 border-linkedin-light font-semibold';
+    }
+
+    return `${baseClasses} ${typeClasses} ${unreadClasses}`;
+  };
+
   // Mock profile data for demonstration
   const mockProfileData = {
     profileInfo: {
@@ -620,31 +685,6 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
     </div>
   );
 
-  // Sample notifications data
-  const sampleNotifications = [
-    {
-      id: 1,
-      title: 'New investment opportunity',
-      message: 'AgriTech Innovations is raising Series A',
-      time: '2 hours ago',
-      type: 'investment'
-    },
-    {
-      id: 2,
-      title: 'Portfolio update',
-      message: 'HealthFlow Solutions posted Q4 results',
-      time: '1 day ago',
-      type: 'portfolio'
-    },
-    {
-      id: 3,
-      title: 'Network activity',
-      message: 'Sarah Khalil shared a market insight',
-      time: '2 days ago',
-      type: 'network'
-    }
-  ];
-
   if (showProfileView) {
     return <ProfileView onBack={() => setShowProfileView(false)} profileData={mockProfileData} />;
   }
@@ -729,16 +769,22 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
               <Bell className="w-5 h-5 relative z-[50]" />
             </button>
               
+              {unreadNotificationsCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {unreadNotificationsCount}
+                </span>
+              )}
+
               {/* Notifications Dropdown */}
               {showNotificationsDropdown && (
                 <div id="notifications-dropdown" className="absolute right-0 mt-2 w-80 bg-linkedin-card rounded-lg shadow-lg border border-linkedin-border z-[9999]" style={{top: '100%'}}>
                   <div className="p-4 border-b border-linkedin-border">
-                    <h3 className="text-white font-semibold">Notifications</h3>
+                    <h3 className="text-white font-semibold">Notifications ({unreadNotificationsCount} unread)</h3>
                   </div>
                   <div className="max-h-80 overflow-y-auto">
                     {sampleNotifications.map((notification) => (
-                      <div key={notification.id} className="p-4 border-b border-linkedin-border/50 hover:bg-linkedin-card/50 transition-colors cursor-pointer">
-                        <h4 className="text-white font-medium text-sm mb-1">{notification.title}</h4>
+                      <div key={notification.id} className={getNotificationItemClass(notification.type, notification.unread)}>
+                        <h4 className="text-white text-sm mb-1">{notification.title}</h4>
                         <p className="text-gray-300 text-xs mb-2">{notification.message}</p>
                         <span className="text-gray-500 text-xs">{notification.time}</span>
                       </div>
