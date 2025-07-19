@@ -747,8 +747,8 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
                 onClick={() => setShowNotificationsDropdown(!showNotificationsDropdown)}
                 className="p-2 text-gray-400 hover:text-white transition-colors"
               >
-              <Bell className="w-5 h-5 relative z-[50]" />
-            </button>
+                <Bell className="w-5 h-5 relative z-[50]" />
+              </button>
               
               {unreadNotificationsCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
@@ -844,11 +844,11 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
                   </div>
                   
                   <div className="py-2">
-                    <button
+                    <button 
                       onClick={() => {
                         setShowProfileView(true);
-                        setShowMyVentures(false);
-                        setShowVentureBuilder(false);
+                        setShowMyVentures(false); // Ensure MyVentures is false
+                        setShowVentureBuilder(false); // Ensure VentureBuilder is false
                         setShowProfileDropdown(false);
                       }}
                       className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
@@ -858,8 +858,8 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
                     <button
                       onClick={() => {
                         setShowMyVentures(true);
-                        setShowProfileView(false);
-                        setShowVentureBuilder(false);
+                        setShowProfileView(false); // Ensure ProfileView is false
+                        setShowVentureBuilder(false); // Ensure VentureBuilder is false
                         setShowProfileDropdown(false);
                       }}
                       className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
@@ -869,9 +869,9 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
                     <button
                       className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
                       onClick={() => {
-                        setShowProfileView(false);
-                        setShowMyVentures(false);
-                        setShowVentureBuilder(false);
+                        setShowProfileView(false); // Ensure ProfileView is false
+                        setShowMyVentures(false); // Ensure MyVentures is false
+                        setShowVentureBuilder(false); // Ensure VentureBuilder is false
                         setActiveTab('trading');
                         setActiveTradingSection('investment-pipeline');
                         setShowProfileDropdown(false);
@@ -882,9 +882,9 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
                     <button
                       className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]"
                       onClick={() => {
-                        setShowProfileView(false);
-                        setShowMyVentures(false);
-                        setShowVentureBuilder(false);
+                        setShowProfileView(false); // Ensure ProfileView is false
+                        setShowMyVentures(false); // Ensure MyVentures is false
+                        setShowVentureBuilder(false); // Ensure VentureBuilder is false
                         setActiveTab('my-services');
                         setActiveMyServicesSection('overview');
                         setShowProfileDropdown(false);
@@ -892,12 +892,12 @@ const MainPlatform: React.FC<MainPlatformProps> = ({ profileCompleted, onReturnT
                     >
                       My Services
                     </button>
- <button className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]">
- Account Settings
- </button>
- <button className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]">
- Privacy Controls
- </button>
+                    <button className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]">
+                      Account Settings
+                    </button>
+                    <button className="w-full text-left px-4 py-2 text-gray-300 hover:bg-linkedin-background/50 hover:text-white transition-colors relative z-[9999]">
+                      Privacy Controls
+                    </button>
                   </div>
                   
                   <div className="p-3 border-t border-linkedin-border">
